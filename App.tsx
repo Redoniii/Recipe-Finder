@@ -1,20 +1,58 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { MaterialIcons } from 'react-native-vector-icons'; // Importing icons
+import { AppContextProvider } from './app/context/AppContext';
+
+import RecipesTab from './app/tabs/RecipesTab';
+import MealPlanTab from './app/tabs/MealPlanTab';
+import FavoritesTab from './app/tabs/FavoritesTab';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <AppContextProvider>
+        <NavigationContainer>
+          <Tab.Navigator>
+          <Tab.Screen
+              name="Recipes"
+              component={RecipesTab}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialIcons name="restaurant-menu" color={color} size={size} />
+                ),
+                headerShown: false
+              }}
+            />
+             <Tab.Screen
+              name="MealPlan"
+              component={MealPlanTab}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialIcons name="calendar-today" color={color} size={size} />
+                ),
+                headerShown: false
+
+              }}
+            />
+            <Tab.Screen
+              name="Favorites"
+              component={FavoritesTab}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialIcons name="favorite-border" color={color} size={size} />
+                ),
+                headerShown: false
+
+              }}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+        <StatusBar style="auto" />
+      </AppContextProvider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
